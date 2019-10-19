@@ -1,0 +1,35 @@
+# Making a seperate list of columns based on their colreation with each other 
+
+corr_9_up=[]
+corr_7_to_9=[]
+corr_5_to_7=[]
+corr_3_to_5=[]
+corr_3_less=[]
+for i in df.columns:
+    for j in df.columns:
+        p=abs(df[i].corr(df[j]))
+        if p>=0.9:
+            corr_9_up.append([i,j,p])
+        elif p>=0.7:
+            corr_7_to_9.append([i,j,p])        
+        elif p>=0.5:
+            corr_5_to_7.append([i,j,p])
+        elif p>=0.3:
+            corr_3_to_5.append([i,j,p])
+        else:
+            corr_3_less.append([i,j,p])
+ 
+# Converting each list into Dataframes
+
+
+names=["Column 1","Column 2","corelation"]
+corr_3_less=pd.DataFrame(corr_3_less,columns=names).sort_values(by="corelation",ascending=False).reset_index()
+corr_3_less.drop("index",axis=1,inplace=True)
+corr_3_to_5=pd.DataFrame(corr_3_to_5,columns=names).sort_values(by="corelation",ascending=False).reset_index()
+corr_3_to_5.drop("index",axis=1,inplace=True)
+corr_7_to_9=pd.DataFrame(corr_7_to_9,columns=names).sort_values(by="corelation",ascending=False).reset_index()
+corr_7_to_9.drop("index",axis=1,inplace=True)
+corr_9_up=pd.DataFrame(corr_9_up,columns=names).sort_values(by="corelation",ascending=False).reset_index()
+corr_9_up.drop("index",axis=1,inplace=True)
+
+# Now each dataframe can be called easily by using their name and each data frame will have three columns i.e coulmns present and their correlation with each other.
